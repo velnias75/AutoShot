@@ -41,10 +41,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.client.util.ScreenshotUtils;
+import net.minecraft.client.util.ScreenshotRecorder;
 import net.minecraft.text.ClickEvent;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
 
@@ -64,7 +64,7 @@ public final class AutoShotMod implements ClientModInitializer { // NOPMD by hei
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (keyBinding.wasPressed()) {
-				client.openScreen(AutoConfig.getConfigScreen(AutoShotConfig.class, null).get());
+				client.setScreen(AutoConfig.getConfigScreen(AutoShotConfig.class, null).get());
 			}
 		});
 	}
@@ -72,8 +72,8 @@ public final class AutoShotMod implements ClientModInitializer { // NOPMD by hei
 	@SuppressWarnings("resource")
 	public static void saveScreenShot() {
 
-		final NativeImage nativeImage = ScreenshotUtils.takeScreenshot(0, 0,
-				MinecraftClient.getInstance().getFramebuffer());
+		final NativeImage nativeImage = ScreenshotRecorder
+				.takeScreenshot(MinecraftClient.getInstance().getFramebuffer());
 
 		@SuppressWarnings("resource")
 		final File file = new File(MinecraftClient.getInstance().runDirectory, "auto-shots");
@@ -85,20 +85,20 @@ public final class AutoShotMod implements ClientModInitializer { // NOPMD by hei
 
 			try { // NOPMD by heiko on 09.12.22, 15:15
 
-				nativeImage.writeFile(file2);
+				nativeImage.writeTo(file2);
 
-				final MutableText text = new LiteralText(file2.getName()).formatted(Formatting.UNDERLINE)
+				final MutableText text = Text.literal(file2.getName()).formatted(Formatting.UNDERLINE)
 						.styled(style -> style
 								.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, file2.getAbsolutePath())));
 
 				MinecraftClient.getInstance().inGameHud.getChatHud()
-						.addMessage(new LiteralText("Took auto-shot: ").append(text));
+						.addMessage(Text.literal("Took auto-shot: ").append(text));
 
 			} catch (IOException ex) {
 
 				LogManager.getLogger().warn("Couldn't save auto-screenshot", ex);
 				MinecraftClient.getInstance().inGameHud.getChatHud()
-						.addMessage(new LiteralText("Couldn't save auto-screenshot..."));
+						.addMessage(Text.literal("Couldn't save auto-screenshot..."));
 
 			} finally {
 				nativeImage.close();

@@ -56,13 +56,13 @@ processResources {
 
 tasks.withType(JavaExec).configureEach {
 	  javaLauncher = javaToolchains.launcherFor {
-          languageVersion = JavaLanguageVersion.of(8)
+          languageVersion = JavaLanguageVersion.of(17)
 	}
 }
 
 java {
 	toolchain {
-	  languageVersion = JavaLanguageVersion.of(8)
+	  languageVersion = JavaLanguageVersion.of(17)
 	}
 
 	// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
