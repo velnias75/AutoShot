@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "autoshot",
+	"version": "${version}",
+	"name": "AutoShot",
+	"description": "tbw",
+	"authors": [
+		"Velnias75"
+	],
+	"contact": {
+		"homepage": "https://www.curseforge.com/minecraft/mc-mods/pandacrossing",
+		"issues": "https://github.com/velnias75/PandaCrossing/issues",
+		"sources": "https://github.com/velnias75/PandaCrossing"
+	},
+	"license": "GPL-3.0-or-later",
+	"icon": "assets/autoshot/autoshot.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"de.rangun.autoshot.AutoShotMod"
+		]
+	},
+	"mixins": [
+	],
+	"depends": {
+		"fabricloader": ">=0.14.0",
+		"fabric": "*",
+		"minecraft": ">=1.16.5"
+	},
+	"suggests": {
+		"modmenu": ">=1.16.0"
+	},
+	"custom": {
+		"modmenu": {
+			"links": {
+				"modmenu.discord": "https://discord.gg/tkX9BcwCCS"
+			}
+		}
+	}
+}
