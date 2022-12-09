@@ -8,9 +8,9 @@
 		"Velnias75"
 	],
 	"contact": {
-		"homepage": "https://www.curseforge.com/minecraft/mc-mods/pandacrossing",
-		"issues": "https://github.com/velnias75/PandaCrossing/issues",
-		"sources": "https://github.com/velnias75/PandaCrossing"
+		"homepage": "https://github.com/velnias75/AutoShot",
+		"issues": "https://github.com/velnias75/AutoShot/issues",
+		"sources": "https://github.com/velnias75/AutoShot"
 	},
 	"license": "GPL-3.0-or-later",
 	"icon": "assets/autoshot/autoshot.png",
