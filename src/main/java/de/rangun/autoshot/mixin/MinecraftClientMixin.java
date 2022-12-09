@@ -25,19 +25,22 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import de.rangun.autoshot.AutoShotMod;
+import de.rangun.autoshot.config.AutoShotConfig;
+import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 
 @Mixin(MinecraftClient.class)
-public final class MinecraftClientMixin {
+public final class MinecraftClientMixin { // NOPMD by heiko on 09.12.22, 14:59
 
 	private long tickCounter = -1L;
 
 	@Inject(method = "tick", at = @At("HEAD"))
-	public void onTick(CallbackInfo ci) {
+	public void onTick(final CallbackInfo callbackInfo) {
 
 		@SuppressWarnings("resource")
 		final ClientPlayerEntity player = MinecraftClient.getInstance().player;
+		final AutoShotConfig config = AutoConfig.getConfigHolder(AutoShotConfig.class).getConfig();
 
 		if (player == null) {
 			tickCounter = -1L;
@@ -46,8 +49,8 @@ public final class MinecraftClientMixin {
 			++tickCounter;
 		}
 
-		if (tickCounter % 200 == 0) {
-			AutoShotMod.doTick(tickCounter);
+		if (config.enabled && tickCounter > 0 && tickCounter % config.tick_interval == 0) {
+			AutoShotMod.saveScreenShot();
 		}
 	}
 }

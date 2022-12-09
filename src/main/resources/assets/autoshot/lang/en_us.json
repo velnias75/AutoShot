@@ -1,0 +1,7 @@
+{
+	"key.autoshot.settings": "Open Settings Menu",
+	"category.autoshot.keys": "AutoShot",
+	"text.autoconfig.autoshot.title": "AutoShot Settings",
+	"text.autoconfig.autoshot.option.enabled": "Auto screenshots enabled?",
+	"text.autoconfig.autoshot.option.tick_interval": "Interval to take shots (in ticks)"
+}

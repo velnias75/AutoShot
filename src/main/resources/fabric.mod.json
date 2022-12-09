@@ -18,6 +18,9 @@
 	"entrypoints": {
 		"client": [
 			"de.rangun.autoshot.AutoShotMod"
+		],
+		"modmenu": [
+			"de.rangun.autoshot.config.ModMenu"
 		]
 	},
 	"mixins": [
@@ -26,7 +29,8 @@
 	"depends": {
 		"fabricloader": ">=0.14.0",
 		"fabric": "*",
-		"minecraft": ">=1.16.5"
+		"minecraft": ">=1.16.5",
+		"cloth-config2": ">=4.16.0"
 	},
 	"suggests": {
 		"modmenu": ">=1.16.0"
