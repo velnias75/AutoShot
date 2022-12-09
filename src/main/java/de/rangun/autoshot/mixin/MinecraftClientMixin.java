@@ -17,24 +17,37 @@
  * along with AutoShot.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.rangun.autoshot;
+package de.rangun.autoshot.mixin;
 
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import de.rangun.autoshot.AutoShotMod;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.LiteralText;
+import net.minecraft.client.network.ClientPlayerEntity;
 
-@Environment(EnvType.CLIENT)
-public final class AutoShotMod implements ClientModInitializer {
+@Mixin(MinecraftClient.class)
+public final class MinecraftClientMixin {
 
-	@Override
-	public void onInitializeClient() {
-	}
+	private long tickCounter = -1L;
 
-	@SuppressWarnings("resource")
-	public static void doTick(final long tick) {
-		MinecraftClient.getInstance().inGameHud.getChatHud()
-				.addMessage(new LiteralText("tick tock Urubar: " + (tick / 200L)));
+	@Inject(method = "tick", at = @At("HEAD"))
+	public void onTick(CallbackInfo ci) {
+
+		@SuppressWarnings("resource")
+		final ClientPlayerEntity player = MinecraftClient.getInstance().player;
+
+		if (player == null) {
+			tickCounter = -1L;
+			return;
+		} else {
+			++tickCounter;
+		}
+
+		if (tickCounter % 200 == 0) {
+			AutoShotMod.doTick(tickCounter);
+		}
 	}
 }
