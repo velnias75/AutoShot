@@ -1,5 +1,6 @@
 {
 	"key.autoshot.settings": "Open Settings Menu",
+	"key.autoshot.enable": "Enable/Disable Hotkey",
 	"category.autoshot.keys": "AutoShot",
 	"text.autoconfig.autoshot.title": "AutoShot Settings",
 	"text.autoconfig.autoshot.option.enabled": "Auto screenshots enabled?",
