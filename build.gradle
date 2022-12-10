@@ -6,7 +6,7 @@ plugins {
 
 group = projectGroup
 archivesBaseName = projectArchiveBaseName
-version = projectBaseVersion + "-mc" + minecraft_version
+version = projectBaseVersion + "-mc" + minecraft_version 
 
 repositories {
 	maven {
