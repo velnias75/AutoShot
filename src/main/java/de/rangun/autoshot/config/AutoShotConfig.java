@@ -24,10 +24,17 @@ import me.shedaniel.autoconfig.annotation.Config;
 
 @Config(name = "autoshot")
 @Config.Gui.Background(Config.Gui.Background.TRANSPARENT)
-public final class AutoShotConfig implements ConfigData {
+public final class AutoShotConfig implements ConfigData { // NOPMD by heiko on 10.12.22, 12:38
 
-	public boolean enabled = false;
+	public boolean enabled = false; // NOPMD by heiko on 10.12.22, 12:38
 
 	public int tick_interval = 200;
 
+	@Override
+	public void validatePostLoad() throws ValidationException {
+
+		if (tick_interval <= 0) {
+			throw new ValidationException("Interval must be greater than 0");
+		}
+	}
 }
