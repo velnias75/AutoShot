@@ -31,7 +31,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 
 @Mixin(MinecraftClient.class)
-public final class MinecraftClientMixin { // NOPMD by heiko on 09.12.22, 14:59
+public final class MinecraftClientMixin { // NOPMD by heiko on 09.12.22, 14:59 // NO_UCD (unused code)
 
 	private long tickCounter = -1L;
 
@@ -40,7 +40,6 @@ public final class MinecraftClientMixin { // NOPMD by heiko on 09.12.22, 14:59
 
 		@SuppressWarnings("resource")
 		final ClientPlayerEntity player = MinecraftClient.getInstance().player;
-		final AutoShotConfig config = AutoConfig.getConfigHolder(AutoShotConfig.class).getConfig();
 
 		if (player == null) {
 			tickCounter = -1L;
@@ -49,7 +48,9 @@ public final class MinecraftClientMixin { // NOPMD by heiko on 09.12.22, 14:59
 			++tickCounter;
 		}
 
-		if (config.enabled && tickCounter > 0 && tickCounter % config.tick_interval == 0) {
+		final AutoShotConfig config = AutoConfig.getConfigHolder(AutoShotConfig.class).getConfig();
+
+		if (config.enabled && tickCounter > 0 && tickCounter % Math.max(1, config.tick_interval) == 0) {
 			AutoShotMod.saveScreenShot();
 		}
 	}

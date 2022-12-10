@@ -31,6 +31,7 @@ import org.lwjgl.glfw.GLFW;
 
 import de.rangun.autoshot.config.AutoShotConfig;
 import me.shedaniel.autoconfig.AutoConfig;
+import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -52,19 +53,45 @@ import net.minecraft.util.Util;
 public final class AutoShotMod implements ClientModInitializer { // NOPMD by heiko on 09.12.22, 14:55
 
 	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss", Locale.US);
-	private static KeyBinding keyBinding;
+	private static final String AUTOSHOT_STATE = "AutoShot is now ";
 
+	private ConfigHolder<AutoShotConfig> configHolder;
+
+	private static KeyBinding kbSettings;
+	private static KeyBinding kbEnable;
+
+	@SuppressWarnings("resource")
 	@Override
 	public void onInitializeClient() {
 
 		AutoConfig.register(AutoShotConfig.class, GsonConfigSerializer::new);
 
-		keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.autoshot.settings", InputUtil.Type.KEYSYM,
+		configHolder = AutoConfig.getConfigHolder(AutoShotConfig.class);
+
+		kbSettings = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.autoshot.settings", InputUtil.Type.KEYSYM,
 				GLFW.GLFW_KEY_U, "category.autoshot.keys"));
 
+		kbEnable = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.autoshot.enable", InputUtil.Type.KEYSYM,
+				InputUtil.UNKNOWN_KEY.getCode(), "category.autoshot.keys"));
+
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
-			while (keyBinding.wasPressed()) {
+
+			while (kbSettings.wasPressed()) {
 				client.setScreen(AutoConfig.getConfigScreen(AutoShotConfig.class, null).get());
+			}
+
+			while (kbEnable.wasPressed()) {
+
+				configHolder.getConfig().enabled = !configHolder.getConfig().enabled;
+				configHolder.save();
+
+				if (configHolder.getConfig().enabled) {
+					MinecraftClient.getInstance().inGameHud.setOverlayMessage(
+							Text.literal(AUTOSHOT_STATE).append(Text.literal("on").formatted(Formatting.GREEN)), false);
+				} else {
+					MinecraftClient.getInstance().inGameHud.setOverlayMessage(
+							Text.literal(AUTOSHOT_STATE).append(Text.literal("off").formatted(Formatting.RED)), false);
+				}
 			}
 		});
 	}

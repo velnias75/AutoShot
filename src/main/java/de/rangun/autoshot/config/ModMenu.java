@@ -24,7 +24,7 @@ import com.terraformersmc.modmenu.api.ModMenuApi;
 
 import me.shedaniel.autoconfig.AutoConfig;
 
-public final class ModMenu implements ModMenuApi {
+public final class ModMenu implements ModMenuApi { // NOPMD by heiko on 10.12.22, 12:40 // NO_UCD (unused code)
 
 	@Override
 	public ConfigScreenFactory<?> getModConfigScreenFactory() {

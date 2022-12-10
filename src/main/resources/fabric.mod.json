@@ -3,9 +3,12 @@
 	"id": "autoshot",
 	"version": "${version}",
 	"name": "AutoShot",
-	"description": "tbw",
+	"description": "Taking screenshots automatically",
 	"authors": [
 		"Velnias75"
+	],
+	"contributors": [
+		"Urubar34"
 	],
 	"contact": {
 		"homepage": "https://github.com/velnias75/AutoShot",
