@@ -21,14 +21,35 @@ package de.rangun.autoshot.config;
 
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
+import me.shedaniel.autoconfig.annotation.ConfigEntry;
 
 @Config(name = "autoshot")
 @Config.Gui.Background(Config.Gui.Background.TRANSPARENT)
 public final class AutoShotConfig implements ConfigData { // NOPMD by heiko on 10.12.22, 12:38
 
+	public enum DAYTIME {
+
+		tick(-1L), day(1000L), noon(6000L), night(13_000L), midnight(18_000L);
+
+		public final long daytime_tick;
+
+		DAYTIME(final long daytime_tick) {
+			this.daytime_tick = daytime_tick;
+		}
+	}
+
 	public boolean enabled = false; // NOPMD by heiko on 10.12.22, 12:38
 
-	public int tick_interval = 200;
+	public boolean at_interval = true;
+
+	public long tick_interval = 200L;
+
+	public boolean at_daytime;
+
+	@ConfigEntry.Gui.Tooltip(count = 5)
+	public DAYTIME daytime = DAYTIME.noon;
+
+	public long daytime_tick = DAYTIME.noon.daytime_tick;
 
 	@Override
 	public void validatePostLoad() throws ValidationException {

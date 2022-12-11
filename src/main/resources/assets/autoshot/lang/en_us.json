@@ -4,5 +4,14 @@
 	"category.autoshot.keys": "AutoShot",
 	"text.autoconfig.autoshot.title": "AutoShot Settings",
 	"text.autoconfig.autoshot.option.enabled": "Auto screenshots enabled?",
-	"text.autoconfig.autoshot.option.tick_interval": "Interval to take shots (in ticks)"
+	"text.autoconfig.autoshot.option.at_interval": "Take shots at every interval",
+	"text.autoconfig.autoshot.option.tick_interval": "Interval to take shots (in ticks)",
+	"text.autoconfig.autoshot.option.at_daytime": "Take shots at a given day time",
+	"text.autoconfig.autoshot.option.daytime": "Take shots at a given preset time",
+	"text.autoconfig.autoshot.option.daytime.@Tooltip[0]": "use tick below",
+	"text.autoconfig.autoshot.option.daytime.@Tooltip[1]": "1000",
+	"text.autoconfig.autoshot.option.daytime.@Tooltip[2]": "6000",
+	"text.autoconfig.autoshot.option.daytime.@Tooltip[3]": "13000",
+	"text.autoconfig.autoshot.option.daytime.@Tooltip[4]": "18000",
+	"text.autoconfig.autoshot.option.daytime_tick": "Take shots at daytime tick (choose tick above)"
 }
