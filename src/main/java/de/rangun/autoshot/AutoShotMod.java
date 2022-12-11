@@ -162,10 +162,11 @@ public final class AutoShotMod implements ClientModInitializer { // NOPMD by hei
 
 	private static File getScreenshotFilename(final File directory) {
 
-		String sdf;
 		File file;
 
-		synchronized (sdf = DATE_FORMAT.format(new Date())) { // NOPMD by heiko on 09.12.22, 15:03
+		synchronized (DATE_FORMAT) {
+
+			final String sdf = DATE_FORMAT.format(new Date());
 
 			int i = 1; // NOPMD by heiko on 09.12.22, 14:44
 

@@ -54,8 +54,12 @@ public final class AutoShotConfig implements ConfigData { // NOPMD by heiko on 1
 	@Override
 	public void validatePostLoad() throws ValidationException {
 
-		if (tick_interval <= 0) {
-			throw new ValidationException("Interval must be greater than 0");
+		if (tick_interval <= 0L) { // NOPMD by heiko on 11.12.22, 13:04
+			throw new ValidationException("tick_interval must be greater than 0");
+		}
+
+		if (daytime_tick < 0L || daytime_tick > 24_000L) {
+			throw new ValidationException("daytime_tick must be between 0 and 24000");
 		}
 	}
 }
