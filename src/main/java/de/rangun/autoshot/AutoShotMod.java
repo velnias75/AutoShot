@@ -30,6 +30,7 @@ import org.apache.logging.log4j.LogManager;
 import org.lwjgl.glfw.GLFW;
 
 import de.rangun.autoshot.config.AutoShotConfig;
+import de.rangun.autoshot.config.AutoShotConfig.DAYTIME;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
@@ -48,6 +49,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Util;
+import net.minecraft.world.GameRules;
 
 @Environment(EnvType.CLIENT)
 public final class AutoShotMod implements ClientModInitializer { // NOPMD by heiko on 09.12.22, 14:55
@@ -93,6 +95,18 @@ public final class AutoShotMod implements ClientModInitializer { // NOPMD by hei
 							Text.literal(AUTOSHOT_STATE).append(Text.literal("off").formatted(Formatting.RED)), false);
 				}
 			}
+
+			// Fixes #1
+			if (configHolder.getConfig().enabled && configHolder.getConfig().at_daytime
+					&& MinecraftClient.getInstance().world != null
+					&& MinecraftClient.getInstance().world.getGameRules().get(GameRules.DO_DAYLIGHT_CYCLE).get()
+					&& MinecraftClient.getInstance().world
+							.getTimeOfDay() == (DAYTIME.tick.equals(configHolder.getConfig().daytime)
+									? configHolder.getConfig().daytime_tick
+									: configHolder.getConfig().daytime.daytime_tick)) {
+				saveScreenShot();
+			}
+
 		});
 	}
 

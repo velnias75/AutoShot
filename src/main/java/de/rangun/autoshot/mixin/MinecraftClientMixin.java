@@ -30,6 +30,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 
+@SuppressWarnings("resource")
 @Mixin(MinecraftClient.class)
 public final class MinecraftClientMixin { // NOPMD by heiko on 09.12.22, 14:59 // NO_UCD (unused code)
 
@@ -38,7 +39,6 @@ public final class MinecraftClientMixin { // NOPMD by heiko on 09.12.22, 14:59 /
 	@Inject(method = "tick", at = @At("HEAD"))
 	public void onTick(final CallbackInfo callbackInfo) {
 
-		@SuppressWarnings("resource")
 		final ClientPlayerEntity player = MinecraftClient.getInstance().player;
 
 		if (player == null) {
@@ -50,7 +50,8 @@ public final class MinecraftClientMixin { // NOPMD by heiko on 09.12.22, 14:59 /
 
 		final AutoShotConfig config = AutoConfig.getConfigHolder(AutoShotConfig.class).getConfig();
 
-		if (config.enabled && tickCounter > 0 && tickCounter % Math.max(1, config.tick_interval) == 0) {
+		if (config.enabled && config.at_interval && tickCounter > 0
+				&& tickCounter % Math.max(1L, config.tick_interval) == 0) {
 			AutoShotMod.saveScreenShot();
 		}
 	}
