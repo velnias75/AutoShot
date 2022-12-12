@@ -19,6 +19,9 @@
 
 package de.rangun.autoshot.config;
 
+import java.util.Arrays;
+import java.util.List;
+
 import me.shedaniel.autoconfig.ConfigData;
 import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
@@ -29,7 +32,7 @@ public final class AutoShotConfig implements ConfigData { // NOPMD by heiko on 1
 
 	public enum DAYTIME {
 
-		tick(-1L), day(1000L), noon(6000L), night(13_000L), midnight(18_000L);
+		tick(-1L), day(1000L), noon(6000L), night(13_000L), midnight(18_000L); // NO_UCD (unused code)
 
 		public final long daytime_tick;
 
@@ -42,7 +45,11 @@ public final class AutoShotConfig implements ConfigData { // NOPMD by heiko on 1
 
 	public boolean at_interval = true;
 
-	public long tick_interval = 200L;
+	@ConfigEntry.Gui.Tooltip
+	public List<Long> tick_intervals = Arrays.asList(200L);
+
+	@ConfigEntry.Gui.Excluded
+	public int tick_interval_idx;
 
 	public boolean at_daytime;
 
@@ -54,8 +61,8 @@ public final class AutoShotConfig implements ConfigData { // NOPMD by heiko on 1
 	@Override
 	public void validatePostLoad() throws ValidationException {
 
-		if (tick_interval <= 0) {
-			throw new ValidationException("Interval must be greater than 0");
+		if (daytime_tick < 0L || daytime_tick > 24_000L) {
+			throw new ValidationException("daytime_tick must be between 0 and 24000");
 		}
 	}
 }

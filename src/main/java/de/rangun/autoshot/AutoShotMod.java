@@ -17,7 +17,11 @@
  * along with AutoShot.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.rangun.autoshot;
+package de.rangun.autoshot; // NOPMD by heiko on 12.12.22, 08:23
+
+import static com.mojang.brigadier.arguments.LongArgumentType.longArg;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.argument;
+import static net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +33,8 @@ import java.util.Locale;
 import org.apache.logging.log4j.LogManager;
 import org.lwjgl.glfw.GLFW;
 
+import de.rangun.autoshot.commands.AutoShotCommand;
+import de.rangun.autoshot.commands.TickIntervalsSuggestionProvider;
 import de.rangun.autoshot.config.AutoShotConfig;
 import de.rangun.autoshot.config.AutoShotConfig.DAYTIME;
 import me.shedaniel.autoconfig.AutoConfig;
@@ -37,6 +43,7 @@ import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
@@ -108,6 +115,12 @@ public final class AutoShotMod implements ClientModInitializer { // NOPMD by hei
 			}
 
 		});
+
+		ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> {
+			dispatcher.register(literal("autoshot").then(argument("tick_interval", longArg())
+					.suggests(new TickIntervalsSuggestionProvider()).executes(new AutoShotCommand(true)))
+					.executes(new AutoShotCommand(false)));
+		});
 	}
 
 	@SuppressWarnings("resource")
@@ -150,10 +163,11 @@ public final class AutoShotMod implements ClientModInitializer { // NOPMD by hei
 
 	private static File getScreenshotFilename(final File directory) {
 
-		String sdf;
 		File file;
 
-		synchronized (sdf = DATE_FORMAT.format(new Date())) { // NOPMD by heiko on 09.12.22, 15:03
+		synchronized (DATE_FORMAT) {
+
+			final String sdf = DATE_FORMAT.format(new Date());
 
 			int i = 1; // NOPMD by heiko on 09.12.22, 14:44
 
