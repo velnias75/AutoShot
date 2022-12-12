@@ -17,7 +17,12 @@
  * along with AutoShot.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.rangun.autoshot;
+package de.rangun.autoshot; // NOPMD by heiko on 12.12.22, 08:23
+
+import static com.mojang.brigadier.arguments.LongArgumentType.longArg;
+import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.DISPATCHER;
+import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.argument;
+import static net.fabricmc.fabric.api.client.command.v1.ClientCommandManager.literal;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +34,8 @@ import java.util.Locale;
 import org.apache.logging.log4j.LogManager;
 import org.lwjgl.glfw.GLFW;
 
+import de.rangun.autoshot.commands.AutoShotCommand;
+import de.rangun.autoshot.commands.TickIntervalsSuggestionProvider;
 import de.rangun.autoshot.config.AutoShotConfig;
 import de.rangun.autoshot.config.AutoShotConfig.DAYTIME;
 import me.shedaniel.autoconfig.AutoConfig;
@@ -120,6 +127,10 @@ public final class AutoShotMod implements ClientModInitializer { // NOPMD by hei
 			}
 
 		});
+
+		DISPATCHER.register(literal("autoshot").then(argument("tick_interval", longArg())
+				.suggests(new TickIntervalsSuggestionProvider()).executes(new AutoShotCommand(true)))
+				.executes(new AutoShotCommand(false)));
 	}
 
 	@SuppressWarnings("resource")

@@ -36,7 +36,7 @@
 		"cloth-config2": ">=4.16.0"
 	},
 	"suggests": {
-		"modmenu": ">=1.16.0"
+		"modmenu": ">=2.0.0"
 	},
 	"custom": {
 		"modmenu": {

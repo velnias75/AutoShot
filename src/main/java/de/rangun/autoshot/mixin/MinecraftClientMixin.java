@@ -51,7 +51,7 @@ public final class MinecraftClientMixin { // NOPMD by heiko on 09.12.22, 14:59 /
 		final AutoShotConfig config = AutoConfig.getConfigHolder(AutoShotConfig.class).getConfig();
 
 		if (config.enabled && config.at_interval && tickCounter > 0
-				&& tickCounter % Math.max(1L, config.tick_interval) == 0) {
+				&& tickCounter % Math.max(1L, config.tick_intervals.get(config.tick_interval_idx)) == 0) {
 			AutoShotMod.saveScreenShot();
 		}
 	}
